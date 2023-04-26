@@ -3,32 +3,26 @@
 #include "../Utilities/Point.h"
 #include <string>
 
-class World
-{
-public:
-    static World& Get()
-    {
-        static World world;
-        return world;
-    }
-};
+class World;
 
 class Organism
 {
 
 protected:
 
+    const std::string name;
+    const char symbol;
+    const int colorCode;
+
     int initiative;
     int ageInTours;
     int strength;
     point position;
-    const std::string name;
     World& world;
 
 public:
 
-    Organism()
-        : world(World::Get()) {}
+    Organism(const std::string& name, char symbol, int colorCode);
 
     int getInitiative() const;
     void setInitiative(int initiative);
@@ -42,7 +36,7 @@ public:
 
     virtual void action() = 0;
     virtual void collision() {};
-    virtual void draw() = 0;
+    void draw();
 
 };
 

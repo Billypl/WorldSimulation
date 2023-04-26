@@ -1,5 +1,8 @@
 #pragma once
 #include <windows.h>
+#include <iostream>
+#include <cmath>
+#include "Point.h"
 
 class Console
 {
@@ -60,6 +63,17 @@ public:
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colorCode);
     }
 
+    static void setColor(int colorCode)
+    {
+        _textColor = static_cast<Color>(colorCode % 15);
+        _backgroundColor = static_cast<Color>(floor(colorCode / 15)*15);
+    }
+
+    static void gotoxy(point p)
+    {
+        gotoxy(p.x, p.y);
+    }
+
     static void gotoxy(int x, int y)
     {
         COORD c = {x, y};
@@ -72,7 +86,24 @@ public:
         std::cout << character;
     }
 
+    static void gotoxy(point p, char character)
+    {
+        gotoxy(p.x, p.y, character);
+    }
+
+    static void gotoxy(int x, int y, const std::string& str)
+    {
+        gotoxy(x, y);
+        std::cout << str;
+    }
+
+    static void gotoxy(point p, const std::string& str)
+    {
+        gotoxy(p.x, p.y, str);
+    }
+
+
 };
 
-Console::Color Console::_textColor = Console::Color::WHITE;
-Console::Color Console::_backgroundColor = Console::Color::BLACK;
+inline Console::Color Console::_textColor = Console::Color::WHITE;
+inline Console::Color Console::_backgroundColor = Console::Color::BLACK;

@@ -7,8 +7,8 @@ class Plant : public Organism
 
 public:
 
-    Plant()
-    {
+    Plant(const std::string& name, char symbol, int colorCode)
+        : Organism(name, symbol, colorCode) {
         initiative = 0;
     }
 

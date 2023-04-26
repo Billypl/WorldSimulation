@@ -10,7 +10,10 @@ public:
 
     point			    () {};
     explicit point	    (int x, int y);
-    point&   operator=  (const point& other);
+    point   operator+  (const point& other) const;
+    point   operator-  (const point& other) const;
+    void   operator+=  (const point& other);
+    void   operator-=  (const point& other);
     bool   operator==   (const point& other) const;
     bool   operator!=   (const point& other) const;
     bool   isEqual	    (const point& other) const;
