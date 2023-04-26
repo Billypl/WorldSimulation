@@ -3,15 +3,6 @@
 point::point(int x, int y)
         : x(x), y(y) {}
 
-
-point& point::operator=(const point& other)
-{
-    x = other.x;
-    y = other.y;
-    return *this;
-}
-
-
 bool point::operator==(const point& other) const
 {
     return isEqual(other);
@@ -39,4 +30,26 @@ void point::swap()
 void point::swap(point& other)
 {
     std::swap(x, other.x);
+}
+
+point point::operator+(const point &other) const
+{
+    point tmp(x + other.x, y + other.y);
+    return tmp;
+}
+
+point point::operator-(const point &other) const
+{
+    point tmp(x - other.x, y - other.y);
+    return tmp;
+}
+
+void point::operator+=(const point &other)
+{
+    (*this) = ((*this) + other);
+}
+
+void point::operator-=(const point &other)
+{
+    (*this) = ((*this) - other);
 }

@@ -1,4 +1,8 @@
 #include "Organism.h"
+#include "../World/World.h"
+#include "../GUI/GUI.h"
+
+using namespace std;
 
 int Organism::getInitiative() const
 {
@@ -43,4 +47,12 @@ void Organism::setPosition(const point &position)
 const std::string &Organism::getName() const
 {
     return name;
+}
+
+Organism::Organism(const string& name, char symbol, int colorCode)
+    : world(World::Get()), name(name), symbol(symbol), colorCode(colorCode) {}
+
+void Organism::draw()
+{
+    GUI::printToBoard(symbol, position);
 }
