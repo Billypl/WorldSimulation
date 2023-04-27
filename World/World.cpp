@@ -102,4 +102,21 @@ point World::getOffsettedField(Organism *organism, Field field)
     return organism->getPosition() + offset;
 }
 
+bool World::isInBounds(point position)
+{
+    return  position.x >= 0 &&
+            position.x <= BOARD_SIZE.first &&
+            position.y >= 0 &&
+            position.y <= BOARD_SIZE.second;
+}
+
+Organism *World::findOrganismByPosition(point position)
+{
+    for(auto organism : organisms)
+    {
+        if(organism->getPosition() == position)
+            return organism;
+    }
+}
+
 

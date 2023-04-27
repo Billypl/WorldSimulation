@@ -45,8 +45,8 @@ void Organism::setPosition(const point &position)
     Organism::position = position;
 }
 
-Organism::Organism(point position, const string& name, char symbol, int colorCode)
-    : world(World::Get()), name(name), symbol(symbol), colorCode(colorCode), initiative(-1), ageInTours(-1), strength(-1), position(position) {}
+Organism::Organism(point position, const string& name, char symbol, OrganismType type, int colorCode)
+    : world(World::Get()), name(name), symbol(symbol), type(type), colorCode(colorCode), initiative(-1), ageInTours(-1), strength(-1), position(position) {}
 
 void Organism::draw()
 {
@@ -70,10 +70,15 @@ Organism *Organism::generateOrganism(OrganismType type, point position)
 void Organism::reproduce(OrganismType type)
 {
     optional<point> freeField = world.getFreeField(this);
-    if(!freeField.has_value())
-        return;
-    Organism* organism = Organism::generateOrganism(type, freeField.value());
-    world.getOrganisms().push_back(organism);
-    string message = organism->name + " has reproduced\n";
-    GUI::logMessage += message;
+    if(freeField.has_value() && World::isInBounds(freeField.value()))
+    {
+        Organism* organism = Organism::generateOrganism(type, freeField.value());
+        world.getOrganisms().push_back(organism);
+
+        string message = organism->name + " has reproduced\n";
+        GUI::logMessage += message;
+    }
+
 }
+
+

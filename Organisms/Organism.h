@@ -36,11 +36,12 @@ public:
         HUMAN
     };
 
+    const OrganismType type;
     const std::string name;
     const char symbol;
     const int colorCode;
 
-    Organism(point position, const std::string& name, char symbol, int colorCode);
+    Organism(point position, const std::string& name, char symbol, OrganismType type, int colorCode);
 
     int getInitiative() const;
     void setInitiative(int initiative);

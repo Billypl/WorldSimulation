@@ -65,8 +65,9 @@ public:
 
     static void setColor(int colorCode)
     {
-        _textColor = static_cast<Color>(colorCode % 15);
-        _backgroundColor = static_cast<Color>(floor(colorCode / 15)*15);
+        _textColor = static_cast<Color>(colorCode % 16);
+        _backgroundColor = static_cast<Color>(colorCode / 16);
+        setColor(_textColor, _backgroundColor);
     }
 
     static void gotoxy(point coords)

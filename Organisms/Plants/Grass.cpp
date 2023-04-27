@@ -4,11 +4,15 @@
 
 using namespace std;
 
+using enum Console::ColorType;
+using enum Console::Color;
+
 Grass::Grass(point position)
     : Plant(position,
             "Grass",
             'G',
-            Console::Color::GREEN * Console::ColorType::BACKGROUND
+            OrganismType::GRASS,
+            WHITE * FOREGROUND + GREEN * BACKGROUND
             )
 {
 

@@ -6,7 +6,10 @@
 
 using namespace std;
 
+const double Plant::reproductionProbability = 0.1;
+
 void Plant::action()
 {
-    this->reproduce(OrganismType::GRASS);
+    if(Random::isProbable(reproductionProbability))
+        this->reproduce(type);
 }

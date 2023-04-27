@@ -7,12 +7,12 @@ class Plant : public Organism
 
 protected:
 
-    double reproductionProbability = 0.5;
+    static const double reproductionProbability;
 
 public:
 
-    Plant(point position, const std::string& name, char symbol, int colorCode)
-        : Organism(position, name, symbol, colorCode)
+    Plant(point position, const std::string& name, char symbol, OrganismType type, int colorCode)
+        : Organism(position, name, symbol, type, colorCode)
     {
         initiative = 0;
     }

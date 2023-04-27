@@ -7,6 +7,7 @@ using namespace std;
 const char GUI::BORDER_CHAR = '#';
 const string GUI::AUTHOR = "Michal Pawiłojć, 193159";
 string GUI::logMessage;
+int GUI::lastLoggedMessagesCount = 0;
 
 void GUI::printToBoard(const point &x, char ch)
 {
@@ -17,11 +18,29 @@ void GUI::printToBoard(const point &x, char ch)
 
 void GUI::printToLogger()
 {
+    clearLogger();
+    printToLogger(logMessage);
+}
+
+void GUI::printToLogger(string& str)
+{
     Console::gotoxy(LOG_POS - point(0, 1), "Logger: ");
-    vector<string> messages = Utils::splitString(logMessage, '\n');
+    vector<string> messages = Utils::splitString(str, '\n');
     for(int i = 0; i < messages.size(); i++)
         Console::gotoxy(LOG_POS + point(0,i), messages[i]);
-    logMessage.clear();
+    lastLoggedMessagesCount = messages.size();
+    str.clear();
+}
+
+void GUI::clearLogger()
+{
+    string eraser;
+    string line(20, ' ');
+    while(lastLoggedMessagesCount--)
+    {
+        eraser += line + '\n';
+    }
+    printToLogger(eraser);
 }
 
 void GUI::printBoard()
@@ -44,3 +63,5 @@ void GUI::printVerticalBorder(int x)
     for (int i = -1; i < BOARD_SIZE.second + 2; i++)
         Console::gotoxy(BOARD_POS + point(x, i), BORDER_CHAR);
 }
+
+
