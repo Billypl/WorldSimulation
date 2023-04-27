@@ -6,7 +6,7 @@ class Animal : public Organism
 
 public:
 
-//    Animal(const std::string& name, char symbol, int colorCode);
+    Animal(point position, const std::string& name, char symbol, int colorCode);
     void action() override;
     void collision() override;
 

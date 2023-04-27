@@ -10,10 +10,6 @@ class Organism
 
 protected:
 
-    const std::string name;
-    const char symbol;
-    const int colorCode;
-
     int initiative;
     int ageInTours;
     int strength;
@@ -22,7 +18,29 @@ protected:
 
 public:
 
-    Organism(const std::string& name, char symbol, int colorCode);
+    enum OrganismType
+    {
+        GRASS,
+        DANDELION,
+        GUARANA,
+        WOLFBERRIES,
+        SOSNOWSKY_BORSCHT,
+
+        WOLF,
+        SHEEP,
+        FOX,
+        TURTLE,
+        ANTELOPE,
+        CYBER_SHEEP,
+
+        HUMAN
+    };
+
+    const std::string name;
+    const char symbol;
+    const int colorCode;
+
+    Organism(point position, const std::string& name, char symbol, int colorCode);
 
     int getInitiative() const;
     void setInitiative(int initiative);
@@ -32,7 +50,9 @@ public:
     void setStrength(int strength);
     const point &getPosition() const;
     void setPosition(const point &position);
-    const std::string &getName() const;
+
+    static Organism* generateOrganism(OrganismType type, point position);
+    void reproduce(OrganismType type);
 
     virtual void action() = 0;
     virtual void collision() {};

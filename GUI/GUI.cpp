@@ -1,24 +1,27 @@
 #include "GUI.h"
 #include "../Utilities/Console.h"
-#include "../Utilities/Includes.h"
-#include <iostream>
+#include "../Utilities/Utils.h"
 
 using namespace std;
 
 const char GUI::BORDER_CHAR = '#';
-const string GUI::AUTHOR = "Michal Pawilojc, 193159";
+const string GUI::AUTHOR = "Michal Pawiłojć, 193159";
+string GUI::logMessage;
 
-void GUI::printToBoard(char ch, const point& x)
+void GUI::printToBoard(const point &x, char ch)
 {
     point alignedPosition = BOARD_POS;
     alignedPosition += x;
     Console::gotoxy(alignedPosition, ch);
 }
 
-void GUI::printToLogger(string str)
+void GUI::printToLogger()
 {
-    Console::gotoxy(LOG_POS - point(0,1), "Logger: ");
-    Console::gotoxy(LOG_POS, str);
+    Console::gotoxy(LOG_POS - point(0, 1), "Logger: ");
+    vector<string> messages = Utils::splitString(logMessage, '\n');
+    for(int i = 0; i < messages.size(); i++)
+        Console::gotoxy(LOG_POS + point(0,i), messages[i]);
+    logMessage.clear();
 }
 
 void GUI::printBoard()
@@ -32,12 +35,12 @@ void GUI::printBoard()
 
 void GUI::printHorizontalBorder(int y)
 {
-    for(int i = -1; i < BOARD_SIZE.first + 2; i++)
+    for (int i = -1; i < BOARD_SIZE.first + 2; i++)
         Console::gotoxy(BOARD_POS + point(i, y), BORDER_CHAR);
 }
 
 void GUI::printVerticalBorder(int x)
 {
-    for(int i = -1; i < BOARD_SIZE.second + 2; i++)
+    for (int i = -1; i < BOARD_SIZE.second + 2; i++)
         Console::gotoxy(BOARD_POS + point(x, i), BORDER_CHAR);
 }

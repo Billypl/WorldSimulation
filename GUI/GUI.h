@@ -12,15 +12,15 @@ class GUI
 
 public:
 
-    static void printToBoard(char ch, const point& x);
-    static void printToLogger(std::string str);
+    static std::string logMessage;
+    static void printToBoard(const point &x, char ch);
+    static void printToLogger();
     static void printBoard();
 
 private:
 
     static void printHorizontalBorder(int y);
     static void printVerticalBorder(int x);
-
 
 };
 

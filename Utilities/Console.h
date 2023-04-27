@@ -69,9 +69,9 @@ public:
         _backgroundColor = static_cast<Color>(floor(colorCode / 15)*15);
     }
 
-    static void gotoxy(point p)
+    static void gotoxy(point coords)
     {
-        gotoxy(p.x, p.y);
+        gotoxy(coords.x, coords.y);
     }
 
     static void gotoxy(int x, int y)
@@ -86,9 +86,9 @@ public:
         std::cout << character;
     }
 
-    static void gotoxy(point p, char character)
+    static void gotoxy(point coords, char character)
     {
-        gotoxy(p.x, p.y, character);
+        gotoxy(coords.x, coords.y, character);
     }
 
     static void gotoxy(int x, int y, const std::string& str)
@@ -97,9 +97,9 @@ public:
         std::cout << str;
     }
 
-    static void gotoxy(point p, const std::string& str)
+    static void gotoxy(point coords, const std::string& str)
     {
-        gotoxy(p.x, p.y, str);
+        gotoxy(coords.x, coords.y, str);
     }
 
 

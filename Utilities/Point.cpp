@@ -8,24 +8,20 @@ bool point::operator==(const point& other) const
     return isEqual(other);
 }
 
-
 bool point::operator!=(const point& other) const
 {
     return !isEqual(other);
 }
-
 
 bool point::isEqual(const point& other) const
 {
     return (x == other.x) && (y == other.y);
 }
 
-
 void point::swap()
 {
     std::swap(x,y);
 }
-
 
 void point::swap(point& other)
 {
@@ -44,6 +40,12 @@ point point::operator-(const point &other) const
     return tmp;
 }
 
+point point::operator*(int scale) const
+{
+    point tmp(x*scale, y*scale);
+    return tmp;
+}
+
 void point::operator+=(const point &other)
 {
     (*this) = ((*this) + other);
@@ -52,4 +54,9 @@ void point::operator+=(const point &other)
 void point::operator-=(const point &other)
 {
     (*this) = ((*this) - other);
+}
+
+void point::operator*=(int scale)
+{
+    (*this) = ((*this) * scale);
 }

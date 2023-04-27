@@ -1,6 +1,7 @@
 #include "Organism.h"
 #include "../World/World.h"
 #include "../GUI/GUI.h"
+#include "../Utilities/Console.h"
 
 using namespace std;
 
@@ -44,15 +45,35 @@ void Organism::setPosition(const point &position)
     Organism::position = position;
 }
 
-const std::string &Organism::getName() const
-{
-    return name;
-}
-
-Organism::Organism(const string& name, char symbol, int colorCode)
-    : world(World::Get()), name(name), symbol(symbol), colorCode(colorCode) {}
+Organism::Organism(point position, const string& name, char symbol, int colorCode)
+    : world(World::Get()), name(name), symbol(symbol), colorCode(colorCode), initiative(-1), ageInTours(-1), strength(-1), position(position) {}
 
 void Organism::draw()
 {
-    GUI::printToBoard(symbol, position);
+    Console::setColor(colorCode);
+    GUI::printToBoard(position, symbol);
+    Console::setDefaultColor();
+}
+
+Organism *Organism::generateOrganism(OrganismType type, point position)
+{
+    switch(type)
+    {
+        case GRASS:
+            return new Grass(position);
+            break;
+        default:
+            throw "Not a type!";
+    }
+}
+
+void Organism::reproduce(OrganismType type)
+{
+    optional<point> freeField = world.getFreeField(this);
+    if(!freeField.has_value())
+        return;
+    Organism* organism = Organism::generateOrganism(type, freeField.value());
+    world.getOrganisms().push_back(organism);
+    string message = organism->name + " has reproduced\n";
+    GUI::logMessage += message;
 }
