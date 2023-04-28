@@ -25,7 +25,7 @@ void World::start()
     GUI::printBoard();
     Console::setCursorType(false);
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(3,4)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(3,3)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(5,5)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::ANTELOPE, point(9,9)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(9,8)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(8,7)));

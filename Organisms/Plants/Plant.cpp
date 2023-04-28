@@ -15,5 +15,7 @@ void Plant::action()
 
 void Plant::collision(std::shared_ptr<Organism> other)
 {
+    point pos = this->position;
     die(other);
+    other->setPosition(pos);
 }

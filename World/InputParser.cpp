@@ -34,11 +34,7 @@ void InputParser::chooseMovementInput()
                 DIRECTION = World::getOffset(World::Field::RIGHT_FIELD);
                 break;
             case 'u':
-                if(Human::cooldown == 10)
-                {
-                    Human::isUltimateActive = true;
-                    GUI::logMessage += "Ult activate!";
-                }
+                Human::activeteUlt();
                 break;
             case CONFIRMATION_KEY:
                 return;

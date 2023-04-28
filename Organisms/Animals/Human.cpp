@@ -42,16 +42,25 @@ void Human::action()
     if(cooldown == 0)
     {
         cooldown = 10;
-        GUI::logMessage += "Ult reneved!";
+        GUI::logMessage += "Ult reneved!\n";
     }
     else if(cooldown == 5)
     {
         isUltimateActive = false;
-        GUI::logMessage += "Ult disactivated!";
+        GUI::logMessage += "Ult disactivated!\n";
     }
     if(cooldown != 10 || isUltimateActive == true)
     {
         cooldown--;
+    }
+}
+
+void Human::activeteUlt()
+{
+    if(cooldown == 10)
+    {
+        Human::isUltimateActive = true;
+        GUI::logMessage += "Ult activate!\n";
     }
 }
 
