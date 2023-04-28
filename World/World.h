@@ -25,6 +25,7 @@ public:
 
     static World& Get();
     static bool isInBounds(point position);
+    static point getOffset(Field field);
     static point getOffsettedField(std::shared_ptr<Organism> organism, Field field);
 
     void start();

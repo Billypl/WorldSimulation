@@ -11,12 +11,13 @@ class Plant : public Organism
 
 public:
 
-    const double reproductionProbability = 0.04;
     Plant(point position, const std::string& name, char symbol, OrganismType type)
         : Organism(position, name, symbol, type, WHITE * FOREGROUND + GREEN * BACKGROUND)
     {
         initiative = 0;
     }
+
+    const double reproductionProbability = 0.05;
 
     void action() override;
 

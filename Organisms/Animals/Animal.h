@@ -17,11 +17,16 @@ public:
 
     void die(std::shared_ptr<Organism> killer);
 
+    const double reproductionProbability = 0.25;
+
     Animal(point position,
            int initiative,
            int strength,
            const std::string &name,
            char symbol,
            OrganismType type);
+
+    void collision(std::shared_ptr<Organism> other) override;
+
 
 };

@@ -25,16 +25,21 @@ void World::start()
     GUI::printBoard();
     Console::setCursorType(false);
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(3,4)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLF, point(3,3)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLF, point(8,8)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(3,3)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(9,8)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(8,7)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(7,8)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(8,9)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::FOX, point(8,8)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GUARANA, point(3,3)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,1)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,3)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(2,2)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(4,2)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(2,2)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(3,1)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(4,2)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(2,2)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,1)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(4,2)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::HUMAN, point(4,4)));
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::DANDELION, point(10,10)));
 
     while(true)
@@ -55,7 +60,6 @@ void World::doTurn()
         organisms[i]->action();
         manipulateIterIfNecessary(organismsCount, i, organism);
     }
-
     sort(organisms.begin(), organisms.end());
     turnCounter++;
     GUI::printLogger(turnCounter);
@@ -130,6 +134,11 @@ optional<point> World::getFreeField(shared_ptr<Organism> organism)
 
 point World::getOffsettedField(shared_ptr<Organism> organism, Field field)
 {
+    return organism->getPosition() + getOffset(field);
+}
+
+point World::getOffset(Field field)
+{
     point offset;
     switch (field)
     {
@@ -146,7 +155,7 @@ point World::getOffsettedField(shared_ptr<Organism> organism, Field field)
             offset = point(1, 0);
             break;
     }
-    return organism->getPosition() + offset;
+    return offset;
 }
 
 bool World::isInBounds(point position)

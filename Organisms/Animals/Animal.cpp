@@ -18,10 +18,10 @@ Animal::Animal(point position,
 
 void Animal::action()
 {
-    point newPosition(-1, -1);
     Organism::action();
     auto This = world.getOrganism(this);
 
+    point newPosition(-1, -1);
     while (!World::isInBounds(newPosition))
     {
         World::Field field = static_cast<World::Field>(Random::range(0, 3));
@@ -42,4 +42,21 @@ void Animal::die(shared_ptr<Organism> killer)
     point position = this->getPosition();
     Organism::die(killer);
     killer->setPosition(position);
+}
+
+void Animal::collision(std::shared_ptr<Organism> other)
+{
+    if(this->type == other->type)
+    {
+        if(Random::isProbable(reproductionProbability))
+        {
+            reproduce(type);
+        }
+        return;
+    }
+
+    if(this->strength > other->getStrength())
+        other->die(shared_ptr<Organism>(this));
+    else
+        this->die(other);
 }

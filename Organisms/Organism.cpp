@@ -7,6 +7,11 @@
 #include "Plants/Wolfberries.h"
 #include "Plants/SosnowskyBorscht.h"
 #include "Animals/Wolf.h"
+#include "Animals/Sheep.h"
+#include "Animals/Fox.h"
+#include "../Utilities/Random.h"
+#include "Animals/Turtle.h"
+#include "Animals/Human.h"
 
 using namespace std;
 
@@ -105,7 +110,18 @@ shared_ptr<Organism> Organism::generateOrganism(OrganismType type, point positio
         case WOLF:
             return make_shared<Wolf>(position);
             break;
-
+        case SHEEP:
+            return make_shared<Sheep>(position);
+            break;
+        case FOX:
+            return make_shared<Fox>(position);
+            break;
+        case TURTLE:
+            return make_shared<Turtle>(position);
+            break;
+        case HUMAN:
+            return make_shared<Human>(position);
+            break;
         default:
             throw "Not a type!";
     }
@@ -133,20 +149,6 @@ bool Organism::operator>(shared_ptr<Organism> other) const
         return true;
     else
         return false;
-}
-
-void Organism::collision(shared_ptr<Organism> other)
-{
-    if(this->type == other->type)
-    {
-        reproduce(type);
-        return;
-    }
-
-    if(this->strength > other->strength)
-        other->die(shared_ptr<Organism>(this));
-    else
-        this->die(other);
 }
 
 void Organism::die(shared_ptr<Organism> killer)

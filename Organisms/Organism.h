@@ -63,7 +63,7 @@ public:
     void incrementLivedTurnsCounter();
 
     virtual void action();
-    virtual void collision(std::shared_ptr <Organism> other);
+    virtual void collision(std::shared_ptr <Organism> other) = 0;
     void draw();
 
 };

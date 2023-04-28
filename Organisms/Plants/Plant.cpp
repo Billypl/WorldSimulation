@@ -8,7 +8,7 @@ void Plant::action()
 {
     if(Random::isProbable(reproductionProbability))
     {
-        this->reproduce(type);
+        reproduce(type);
     }
     Organism::action();
 }
