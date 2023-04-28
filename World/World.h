@@ -1,5 +1,6 @@
 #pragma once
 #include <optional>
+#include <memory>
 #include "../Organisms/Organism.h"
 #include "../Organisms/Plants/Grass.h"
 
@@ -8,13 +9,12 @@ class World
 
 private:
 
-    std::vector<Organism*> organisms;
-    int toursCounter = 0;
+    std::vector<std::shared_ptr<Organism>> organisms;
+    int turnCounter = 0;
 
 private:
 
     World();
-    ~World();
 
 public:
 
@@ -28,18 +28,19 @@ public:
 
     static World& Get();
     void start();
-    std::vector<Organism*>& getOrganisms();
-    bool isFieldTaken(Organism* organism, Field field);
-    std::optional<point> getFreeField(Organism* organism);
+    std::vector<std::shared_ptr<Organism>>& getOrganisms();
+    bool isFieldTaken(std::shared_ptr<Organism> organism, Field field);
+    std::optional<point> getFreeField(std::shared_ptr<Organism> organism);
     static bool isInBounds(point position);
-    Organism*  findOrganismByPosition(point position);
+    std::shared_ptr<Organism>  findOrganismByPosition(point position);
     int findOrganismIndexByPosition(point position);
 
 private:
 
     void doTurn();
     void drawOrganisms();
-    static point getOffsettedField(Organism* organism, Field field);
+    static point getOffsettedField(std::shared_ptr<Organism> organism, Field field);
+    void manipulateIterIfNecessary(int organismsCount, int &i, std::weak_ptr <Organism> organism);
 
 };
 

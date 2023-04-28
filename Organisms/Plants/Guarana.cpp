@@ -9,7 +9,7 @@ Guarana::Guarana(point position)
                 OrganismType::GUARANA
                 ) {}
 
-void Guarana::collision(Organism *organism)
+void Guarana::collision(std::shared_ptr <Organism> organism)
 {
     organism->setStrength(organism->getStrength() + BONUS_STRENGTH);
 }

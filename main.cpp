@@ -10,11 +10,6 @@
 
 using namespace std;
 
-class lol
-{
-    int x;
-};
-
 int main()
 {
     World::Get().start();

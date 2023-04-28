@@ -8,6 +8,6 @@ public:
     static const int BONUS_STRENGTH;
 
     Guarana(point position);
-    void collision(Organism* organism) override;
+    void collision(std::shared_ptr<Organism> organism) override;
 
 };

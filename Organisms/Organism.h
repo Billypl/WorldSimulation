@@ -2,6 +2,7 @@
 
 #include "../Utilities/Point.h"
 #include <string>
+#include <memory>
 
 class World;
 
@@ -11,7 +12,7 @@ class Organism
 protected:
 
     int initiative;
-    int ageInTours;
+    int ageInTurns;
     int strength;
     point position;
     point lastPosition;
@@ -44,27 +45,26 @@ public:
     const int colorCode;
 
     Organism(point position, const std::string& name, char symbol, OrganismType type, int colorCode);
-    bool operator>(Organism* other) const;
+    ~Organism();
+    bool operator>(std::shared_ptr<Organism> other) const;
 
     int getInitiative() const;
     void setInitiative(int initiative);
-    int getAgeInTours() const;
-    void setAgeInTours(int ageInTours);
+    int getAgeInTurns() const;
+    void setAgeInTurns(int ageInTurns);
     int getStrength() const;
     void setStrength(int strength);
     const point &getPosition() const;
     void setPosition(point position);
 
-    static Organism* generateOrganism(OrganismType type, point position);
+    static std::shared_ptr<Organism> generateOrganism(OrganismType type, point position);
     void reproduce(OrganismType type);
-    void die(Organism* killer);
+    void die(std::shared_ptr <Organism> killer);
 
-    bool isDead() const;
-
-    void incrementLivedToursCounter();
+    void incrementLivedTurnsCounter();
 
     virtual void action() = 0;
-    virtual void collision(Organism* other);
+    virtual void collision(std::shared_ptr <Organism> other);
     void draw();
 
 };

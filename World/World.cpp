@@ -14,14 +14,6 @@ World::World()
 
 }
 
-World::~World()
-{
-    for(auto organism : organisms)
-    {
-        delete organism;
-    }
-}
-
 World &World::Get()
 {
     static World world;
@@ -32,6 +24,8 @@ void World::start()
 {
     GUI::printBoard();
     organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,2)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,3)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,4)));
     organisms.push_back(Organism::generateOrganism(Organism::OrganismType::DANDELION, point(10,10)));
 
     while(true)
@@ -48,28 +42,41 @@ void World::doTurn()
     int organismsCount = organisms.size();
     for(int i = 0; i < organismsCount; i++)
     {
-//        weak_ptr<Organism> organism = organisms[i];
+        weak_ptr<Organism> organism = organisms[i];
         organisms[i]->action();
-        organisms[i]->incrementLivedToursCounter();
-
-        //TODO: deleting bugs the game
-
-//        if(organisms.size() < organismsCount)
-//        {
-//            if(organism ==
-//        }
-
+        organisms[i]->incrementLivedTurnsCounter();
+        manipulateIterIfNecessary(organismsCount, i, organism);
     }
 
     sort(organisms.begin(), organisms.end());
-    toursCounter++;
-    GUI::printLogger(toursCounter);
+    turnCounter++;
+    GUI::printLogger(turnCounter);
 }
 
-bool World::isFieldTaken(Organism *organism, Field field)
+void World::manipulateIterIfNecessary(int organismsCount, int &i, weak_ptr<Organism> organism)
+{
+    // function sorts out deleting elements
+    if(organisms.size() < organismsCount)
+    {
+        if(organism.expired())
+        {
+            i--;
+        }
+        else
+        {
+            shared_ptr<Organism> tmp = organism.lock();
+            if(findOrganismIndexByPosition(tmp->getPosition()) < i)
+            {
+                i--;
+            }
+        }
+    }
+}
+
+bool World::isFieldTaken(shared_ptr<Organism> organism, Field field)
 {
     point fieldToCheck = getOffsettedField(organism, field);
-    for(Organism* it : organisms)
+    for(auto it : organisms)
         if(it->getPosition() == fieldToCheck)
             return true;
     return false;
@@ -77,16 +84,16 @@ bool World::isFieldTaken(Organism *organism, Field field)
 
 void World::drawOrganisms()
 {
-    for(Organism* organism : organisms)
+    for(auto organism : organisms)
         organism->draw();
 }
 
-vector<Organism *> &World::getOrganisms()
+vector<shared_ptr<Organism>> &World::getOrganisms()
 {
     return organisms;
 }
 
-optional<point> World::getFreeField(Organism *organism)
+optional<point> World::getFreeField(shared_ptr<Organism> organism)
 {
     if(!isFieldTaken(organism, Field::UPPER_FIELD))
         return getOffsettedField(organism, Field::UPPER_FIELD);
@@ -99,7 +106,7 @@ optional<point> World::getFreeField(Organism *organism)
     return nullopt;
 }
 
-point World::getOffsettedField(Organism *organism, Field field)
+point World::getOffsettedField(shared_ptr<Organism> organism, Field field)
 {
     point offset;
     switch (field)
@@ -128,7 +135,7 @@ bool World::isInBounds(point position)
             position.y <= BOARD_SIZE.second;
 }
 
-Organism *World::findOrganismByPosition(point position)
+shared_ptr<Organism> World::findOrganismByPosition(point position)
 {
     return organisms[findOrganismIndexByPosition(position)];
 }

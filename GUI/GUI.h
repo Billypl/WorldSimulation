@@ -15,8 +15,8 @@ public:
 
     static std::string logMessage;
     static void printToBoard(point position, char ch);
-    static void printLogger(int toursCounter);
-    static void printLogger(std::string &str, int toursCounter);
+    static void printLogger(int turnsCounter);
+    static void printLogger(std::string &str, int turnsCounter);
     static void printBoard();
 
 private:

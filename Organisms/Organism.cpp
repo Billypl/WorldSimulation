@@ -19,14 +19,14 @@ void Organism::setInitiative(int initiative)
     Organism::initiative = initiative;
 }
 
-int Organism::getAgeInTours() const
+int Organism::getAgeInTurns() const
 {
-    return ageInTours;
+    return ageInTurns;
 }
 
-void Organism::setAgeInTours(int ageInTours)
+void Organism::setAgeInTurns(int ageInTurns)
 {
-    Organism::ageInTours = ageInTours;
+    Organism::ageInTurns = ageInTurns;
 }
 
 int Organism::getStrength() const
@@ -56,7 +56,7 @@ Organism::Organism(point position, const string& name, char symbol, OrganismType
     type(type),
     colorCode(colorCode),
     initiative(-1),
-    ageInTours(0),
+    ageInTurns(0),
     strength(-1),
     position(position),
     lastPosition(point(-1,-1))
@@ -78,7 +78,7 @@ void Organism::draw()
     }
 }
 
-Organism *Organism::generateOrganism(OrganismType type, point position)
+shared_ptr<Organism> Organism::generateOrganism(OrganismType type, point position)
 {
     if(!World::isInBounds(position))
         throw "Out of board";
@@ -86,13 +86,13 @@ Organism *Organism::generateOrganism(OrganismType type, point position)
     switch(type)
     {
         case GRASS:
-            return new Grass(position);
+            return make_shared<Grass>(position);
             break;
         case DANDELION:
-            return new Dandelion(position);
+            return  make_shared<Dandelion>(position);
             break;
         case GUARANA:
-            return new Guarana(position);
+            return make_shared<Guarana>(position);
             break;
         default:
             throw "Not a type!";
@@ -101,10 +101,10 @@ Organism *Organism::generateOrganism(OrganismType type, point position)
 
 void Organism::reproduce(OrganismType type)
 {
-    optional<point> freeField = world.getFreeField(this);
+    optional<point> freeField = world.getFreeField(world.findOrganismByPosition(this->position));
     if(freeField.has_value() && World::isInBounds(freeField.value()))
     {
-        Organism* organism = Organism::generateOrganism(type, freeField.value());
+        shared_ptr<Organism> organism = Organism::generateOrganism(type, freeField.value());
         world.getOrganisms().push_back(organism);
 
         string message = organism->name + " has reproduced\n";
@@ -112,10 +112,10 @@ void Organism::reproduce(OrganismType type)
     }
 }
 
-bool Organism::operator>(Organism *other) const
+bool Organism::operator>(shared_ptr<Organism> other) const
 {
     if(this->initiative == other->initiative)
-        if(this->ageInTours > other->ageInTours)
+        if(this->ageInTurns > other->ageInTurns)
             return true;
     if(this->initiative > other->initiative)
         return true;
@@ -123,7 +123,7 @@ bool Organism::operator>(Organism *other) const
         return false;
 }
 
-void Organism::collision(Organism *other)
+void Organism::collision(shared_ptr<Organism> other)
 {
     if(this->type == other->type)
     {
@@ -132,21 +132,26 @@ void Organism::collision(Organism *other)
     }
 
     if(this->strength > other->strength)
-        other->die(this);
+        other->die(shared_ptr<Organism>(this));
     else
         this->die(other);
 }
 
-void Organism::die(Organism* killer)
+void Organism::die(shared_ptr<Organism> killer)
 {
     GUI::printToBoard(position, ' ');
     GUI::logMessage += killer->name + " destroyed " + this->name + '\n';
     int index = world.findOrganismIndexByPosition(this->position);
     world.getOrganisms().erase(world.getOrganisms().begin() + index);
-    delete this;
 }
 
-void Organism::incrementLivedToursCounter()
+void Organism::incrementLivedTurnsCounter()
 {
-    ageInTours++;
+    ageInTurns++;
+}
+
+Organism::~Organism()
+{
+    GUI::printToBoard(position, ' ');
+    GUI::logMessage += " destroyed " + this->name + '\n';
 }

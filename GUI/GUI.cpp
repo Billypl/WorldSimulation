@@ -18,15 +18,15 @@ void GUI::printToBoard(point position, char ch)
     Console::gotoxy(alignedPosition, ch);
 }
 
-void GUI::printLogger(int toursCounter)
+void GUI::printLogger(int turnsCounter)
 {
     clearLogger();
-    printLogger(logMessage, toursCounter);
+    printLogger(logMessage, turnsCounter);
 }
 
-void GUI::printLogger(string &str, int toursCounter)
+void GUI::printLogger(string &str, int turnsCounter)
 {
-    Console::gotoxy(LOG_POS - point(0, 1), "Logger: (day " + to_string(toursCounter) + ")");
+    Console::gotoxy(LOG_POS - point(0, 1), "Logger: (day " + to_string(turnsCounter) + ")");
     vector<string> messages = Utils::splitString(str, '\n');
     for(int i = 0; i < messages.size(); i++)
         Console::gotoxy(LOG_POS + point(0,i), messages[i]);
