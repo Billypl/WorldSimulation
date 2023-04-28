@@ -3,7 +3,8 @@
 #include "InputParser.h"
 #include "../Utilities/Includes.h"
 #include "World.h"
-
+#include "../Organisms/Animals/Human.h"
+#include "../GUI/GUI.h"
 #include <iostream>
 
 const int InputParser::KEY_UP = 72;
@@ -31,6 +32,13 @@ void InputParser::chooseMovementInput()
                 break;
             case KEY_RIGHT:
                 DIRECTION = World::getOffset(World::Field::RIGHT_FIELD);
+                break;
+            case 'u':
+                if(Human::cooldown == 10)
+                {
+                    Human::isUltimateActive = true;
+                    GUI::logMessage += "Ult activate!";
+                }
                 break;
             case CONFIRMATION_KEY:
                 return;

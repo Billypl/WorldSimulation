@@ -1,6 +1,7 @@
 #include "Organism.h"
 #include "../World/World.h"
 #include "../GUI/GUI.h"
+#include "../Utilities/Random.h"
 #include "Plants/Grass.h"
 #include "Plants/Dandelion.h"
 #include "Plants/Guarana.h"
@@ -9,9 +10,9 @@
 #include "Animals/Wolf.h"
 #include "Animals/Sheep.h"
 #include "Animals/Fox.h"
-#include "../Utilities/Random.h"
 #include "Animals/Turtle.h"
 #include "Animals/Human.h"
+#include "Animals/Antelope.h"
 
 using namespace std;
 
@@ -118,6 +119,9 @@ shared_ptr<Organism> Organism::generateOrganism(OrganismType type, point positio
             break;
         case TURTLE:
             return make_shared<Turtle>(position);
+            break;
+        case ANTELOPE:
+            return make_shared<Antelope>(position);
             break;
         case HUMAN:
             return make_shared<Human>(position);
