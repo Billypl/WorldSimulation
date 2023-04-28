@@ -2,7 +2,9 @@
 #include "../GUI/GUI.h"
 #include "InputParser.h"
 #include "../Organisms/Plants/Grass.h"
+#include "../Organisms/Plants/Dandelion.h"
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -29,7 +31,9 @@ World &World::Get()
 void World::start()
 {
     GUI::printBoard();
-    organisms.push_back(new Grass(point(3,2)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,2)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::DANDELION, point(10,10)));
+
     while(true)
     {
         doTurn();
@@ -40,12 +44,26 @@ void World::doTurn()
 {
     drawOrganisms();
     InputParser::chooseMovementInput();
+
     int organismsCount = organisms.size();
     for(int i = 0; i < organismsCount; i++)
     {
+//        weak_ptr<Organism> organism = organisms[i];
         organisms[i]->action();
+        organisms[i]->incrementLivedToursCounter();
+
+        //TODO: deleting bugs the game
+
+//        if(organisms.size() < organismsCount)
+//        {
+//            if(organism ==
+//        }
+
     }
-    GUI::printToLogger();
+
+    sort(organisms.begin(), organisms.end());
+    toursCounter++;
+    GUI::printLogger(toursCounter);
 }
 
 bool World::isFieldTaken(Organism *organism, Field field)
@@ -112,11 +130,17 @@ bool World::isInBounds(point position)
 
 Organism *World::findOrganismByPosition(point position)
 {
-    for(auto organism : organisms)
-    {
-        if(organism->getPosition() == position)
-            return organism;
-    }
+    return organisms[findOrganismIndexByPosition(position)];
 }
 
-
+int World::findOrganismIndexByPosition(point position)
+{
+    for(int i = 0; i < organisms.size(); i++)
+    {
+        if(organisms[i]->getPosition() == position)
+        {
+            return i;
+        }
+    }
+    return -1;
+}

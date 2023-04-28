@@ -9,22 +9,24 @@ const string GUI::AUTHOR = "Michal Pawiłojć, 193159";
 string GUI::logMessage;
 int GUI::lastLoggedMessagesCount = 0;
 
-void GUI::printToBoard(const point &x, char ch)
+void GUI::printToBoard(point position, char ch)
 {
+    if(position.x < 0 || position.y < 0)
+        return;
     point alignedPosition = BOARD_POS;
-    alignedPosition += x;
+    alignedPosition += position;
     Console::gotoxy(alignedPosition, ch);
 }
 
-void GUI::printToLogger()
+void GUI::printLogger(int toursCounter)
 {
     clearLogger();
-    printToLogger(logMessage);
+    printLogger(logMessage, toursCounter);
 }
 
-void GUI::printToLogger(string& str)
+void GUI::printLogger(string &str, int toursCounter)
 {
-    Console::gotoxy(LOG_POS - point(0, 1), "Logger: ");
+    Console::gotoxy(LOG_POS - point(0, 1), "Logger: (day " + to_string(toursCounter) + ")");
     vector<string> messages = Utils::splitString(str, '\n');
     for(int i = 0; i < messages.size(); i++)
         Console::gotoxy(LOG_POS + point(0,i), messages[i]);
@@ -35,12 +37,10 @@ void GUI::printToLogger(string& str)
 void GUI::clearLogger()
 {
     string eraser;
-    string line(20, ' ');
+    string line(30, ' ');
     while(lastLoggedMessagesCount--)
-    {
         eraser += line + '\n';
-    }
-    printToLogger(eraser);
+    printLogger(eraser, 0);
 }
 
 void GUI::printBoard()

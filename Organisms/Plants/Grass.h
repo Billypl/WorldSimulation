@@ -3,10 +3,9 @@
 
 class Grass : public Plant
 {
+
 public:
 
     Grass(point position);
-
-public:
 
 };

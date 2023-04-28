@@ -9,6 +9,7 @@ class World
 private:
 
     std::vector<Organism*> organisms;
+    int toursCounter = 0;
 
 private:
 
@@ -31,12 +32,13 @@ public:
     bool isFieldTaken(Organism* organism, Field field);
     std::optional<point> getFreeField(Organism* organism);
     static bool isInBounds(point position);
+    Organism*  findOrganismByPosition(point position);
+    int findOrganismIndexByPosition(point position);
 
 private:
 
     void doTurn();
     void drawOrganisms();
-    Organism*  findOrganismByPosition(point position);
     static point getOffsettedField(Organism* organism, Field field);
 
 };

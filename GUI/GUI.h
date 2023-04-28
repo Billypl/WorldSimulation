@@ -14,9 +14,9 @@ class GUI
 public:
 
     static std::string logMessage;
-    static void printToBoard(const point &x, char ch);
-    static void printToLogger();
-    static void printToLogger(std::string &str);
+    static void printToBoard(point position, char ch);
+    static void printLogger(int toursCounter);
+    static void printLogger(std::string &str, int toursCounter);
     static void printBoard();
 
 private:

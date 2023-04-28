@@ -14,7 +14,9 @@ protected:
     int ageInTours;
     int strength;
     point position;
+    point lastPosition;
     World& world;
+    bool _isDead;
 
 public:
 
@@ -42,6 +44,7 @@ public:
     const int colorCode;
 
     Organism(point position, const std::string& name, char symbol, OrganismType type, int colorCode);
+    bool operator>(Organism* other) const;
 
     int getInitiative() const;
     void setInitiative(int initiative);
@@ -50,13 +53,18 @@ public:
     int getStrength() const;
     void setStrength(int strength);
     const point &getPosition() const;
-    void setPosition(const point &position);
+    void setPosition(point position);
 
     static Organism* generateOrganism(OrganismType type, point position);
     void reproduce(OrganismType type);
+    void die(Organism* killer);
+
+    bool isDead() const;
+
+    void incrementLivedToursCounter();
 
     virtual void action() = 0;
-    virtual void collision() {};
+    virtual void collision(Organism* other);
     void draw();
 
 };
