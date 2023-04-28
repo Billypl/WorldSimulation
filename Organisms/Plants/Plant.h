@@ -19,5 +19,7 @@ public:
     }
 
     void action() override;
+
+    void collision(std::shared_ptr<Organism> other) override;
 };
 

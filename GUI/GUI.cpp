@@ -6,12 +6,12 @@ using namespace std;
 
 const char GUI::BORDER_CHAR = '#';
 const string GUI::AUTHOR = "Michal Pawiłojć, 193159";
+const int GUI::MAX_LOG_CAPACITY = 10;
 string GUI::logMessage;
-int GUI::lastLoggedMessagesCount = 0;
 
 void GUI::printToBoard(point position, char ch)
 {
-    if(position.x < 0 || position.y < 0)
+    if (position.x < 0 || position.y < 0)
         return;
     point alignedPosition = BOARD_POS;
     alignedPosition += position;
@@ -28,17 +28,24 @@ void GUI::printLogger(string &str, int turnsCounter)
 {
     Console::gotoxy(LOG_POS - point(0, 1), "Logger: (day " + to_string(turnsCounter) + ")");
     vector<string> messages = Utils::splitString(str, '\n');
-    for(int i = 0; i < messages.size(); i++)
-        Console::gotoxy(LOG_POS + point(0,i), messages[i]);
-    lastLoggedMessagesCount = messages.size();
+    for (int i = 0; i < messages.size(); i++)
+    {
+        Console::gotoxy(LOG_POS + point(0, i), messages[i]);
+        if (i > MAX_LOG_CAPACITY)
+        {
+            Console::gotoxy(LOG_POS + point(0, i),
+                            "(And " + to_string(messages.size() - i) + " other messages...)" + string(20, ' '));
+            break;
+        }
+    }
     str.clear();
 }
 
 void GUI::clearLogger()
 {
     string eraser;
-    string line(30, ' ');
-    while(lastLoggedMessagesCount--)
+    string line(40, ' ');
+    for (int i = 0; i < MAX_LOG_CAPACITY + 2; i++)
         eraser += line + '\n';
     printLogger(eraser, 0);
 }

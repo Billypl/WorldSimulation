@@ -23,9 +23,10 @@ World &World::Get()
 void World::start()
 {
     GUI::printBoard();
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,2)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,3)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,4)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,1)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(3,4)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GUARANA, point(3,3)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SOSNOWSKY_BORSCHT, point(8,8)));
     organisms.push_back(Organism::generateOrganism(Organism::OrganismType::DANDELION, point(10,10)));
 
     while(true)
@@ -44,7 +45,6 @@ void World::doTurn()
     {
         weak_ptr<Organism> organism = organisms[i];
         organisms[i]->action();
-        organisms[i]->incrementLivedTurnsCounter();
         manipulateIterIfNecessary(organismsCount, i, organism);
     }
 
@@ -53,14 +53,15 @@ void World::doTurn()
     GUI::printLogger(turnCounter);
 }
 
-void World::manipulateIterIfNecessary(int organismsCount, int &i, weak_ptr<Organism> organism)
+void World::manipulateIterIfNecessary(int &organismsCount, int &i, weak_ptr<Organism> organism)
 {
     // function sorts out deleting elements
-    if(organisms.size() < organismsCount)
+    while(organisms.size() < organismsCount)
     {
         if(organism.expired())
         {
             i--;
+            organismsCount--;
         }
         else
         {
@@ -69,6 +70,7 @@ void World::manipulateIterIfNecessary(int organismsCount, int &i, weak_ptr<Organ
             {
                 i--;
             }
+            organismsCount--;
         }
     }
 }

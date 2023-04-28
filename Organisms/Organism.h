@@ -45,7 +45,6 @@ public:
     const int colorCode;
 
     Organism(point position, const std::string& name, char symbol, OrganismType type, int colorCode);
-    ~Organism();
     bool operator>(std::shared_ptr<Organism> other) const;
 
     int getInitiative() const;
@@ -63,7 +62,7 @@ public:
 
     void incrementLivedTurnsCounter();
 
-    virtual void action() = 0;
+    virtual void action();
     virtual void collision(std::shared_ptr <Organism> other);
     void draw();
 

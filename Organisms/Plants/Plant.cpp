@@ -11,4 +11,10 @@ void Plant::action()
     {
         this->reproduce(type);
     }
+    Organism::action();
+}
+
+void Plant::collision(std::shared_ptr<Organism> other)
+{
+    die(other);
 }

@@ -9,7 +9,7 @@ class GUI
 
     static const char BORDER_CHAR;
     static const std::string AUTHOR;
-    static int lastLoggedMessagesCount;
+    static const int MAX_LOG_CAPACITY;
 
 public:
 

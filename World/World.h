@@ -34,13 +34,13 @@ public:
     static bool isInBounds(point position);
     std::shared_ptr<Organism>  findOrganismByPosition(point position);
     int findOrganismIndexByPosition(point position);
+    static point getOffsettedField(std::shared_ptr<Organism> organism, Field field);
 
 private:
 
     void doTurn();
     void drawOrganisms();
-    static point getOffsettedField(std::shared_ptr<Organism> organism, Field field);
-    void manipulateIterIfNecessary(int organismsCount, int &i, std::weak_ptr <Organism> organism);
+    void manipulateIterIfNecessary(int &organismsCount, int &i, std::weak_ptr <Organism> organism);
 
 };
 

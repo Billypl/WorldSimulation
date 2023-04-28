@@ -5,6 +5,8 @@
 #include "Plants/Grass.h"
 #include "Plants/Dandelion.h"
 #include "Plants/Guarana.h"
+#include "Plants/Wolfberries.h"
+#include "Plants/SosnowskyBorscht.h"
 
 using namespace std;
 
@@ -94,6 +96,12 @@ shared_ptr<Organism> Organism::generateOrganism(OrganismType type, point positio
         case GUARANA:
             return make_shared<Guarana>(position);
             break;
+        case WOLFBERRIES:
+            return make_shared<Wolfberries>(position);
+            break;
+        case SOSNOWSKY_BORSCHT:
+            return make_shared<SosnowskyBorscht>(position);
+            break;
         default:
             throw "Not a type!";
     }
@@ -101,7 +109,7 @@ shared_ptr<Organism> Organism::generateOrganism(OrganismType type, point positio
 
 void Organism::reproduce(OrganismType type)
 {
-    optional<point> freeField = world.getFreeField(world.findOrganismByPosition(this->position));
+    optional<point> freeField = world.getFreeField(world.findOrganismByPosition(this->position) /*no better way?*/);
     if(freeField.has_value() && World::isInBounds(freeField.value()))
     {
         shared_ptr<Organism> organism = Organism::generateOrganism(type, freeField.value());
@@ -150,8 +158,8 @@ void Organism::incrementLivedTurnsCounter()
     ageInTurns++;
 }
 
-Organism::~Organism()
+void Organism::action()
 {
-    GUI::printToBoard(position, ' ');
-    GUI::logMessage += " destroyed " + this->name + '\n';
+    incrementLivedTurnsCounter();
 }
+
