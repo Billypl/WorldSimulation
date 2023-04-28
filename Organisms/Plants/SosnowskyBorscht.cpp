@@ -8,27 +8,27 @@ SosnowskyBorscht::SosnowskyBorscht(point position)
                 OrganismType::SOSNOWSKY_BORSCHT
 )
 {
-
+    this->strength = 10;
 }
 
 void SosnowskyBorscht::action()
 {
     using enum World::Field;
 
-    auto tmp = world.findOrganismByPosition(this->getPosition());
-    destroyNeighbour(tmp, UPPER_FIELD);
-    destroyNeighbour(tmp, BOTTOM_FIELD);
-    destroyNeighbour(tmp, RIGHT_FIELD);
-    destroyNeighbour(tmp, LEFT_FIELD);
+    auto This = world.getOrganism(this);
+    destroyNeighbour(This, UPPER_FIELD);
+    destroyNeighbour(This, BOTTOM_FIELD);
+    destroyNeighbour(This, RIGHT_FIELD);
+    destroyNeighbour(This, LEFT_FIELD);
 
     Plant::action();
 }
 
-void SosnowskyBorscht::destroyNeighbour(std::shared_ptr<Organism> &tmp, World::Field field)
+void SosnowskyBorscht::destroyNeighbour(std::shared_ptr<Organism> &This, World::Field field)
 {
-    if(world.isFieldTaken(tmp, field))
+    if(world.isFieldTaken(This, field))
     {
-        auto toDelete = world.findOrganismByPosition(World::getOffsettedField(tmp, field));
+        auto toDelete = world.findOrganismByPosition(World::getOffsettedField(This, field));
         if(toDelete->type == SOSNOWSKY_BORSCHT ||
                 toDelete->type == WOLFBERRIES ||
                 toDelete->type == GUARANA ||
@@ -37,12 +37,12 @@ void SosnowskyBorscht::destroyNeighbour(std::shared_ptr<Organism> &tmp, World::F
         )
             return;
 
-        toDelete->die(tmp);
+        toDelete->die(This);
     }
 }
 
 void SosnowskyBorscht::collision(std::shared_ptr<Organism> other)
 {
-    other->die(world.findOrganismByPosition(other->getPosition()));
+    other->die(world.getOrganism(this));
     Plant::collision(other);
 }

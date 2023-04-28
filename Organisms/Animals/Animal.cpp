@@ -1,6 +1,7 @@
 #include "Animal.h"
 #include "../../Utilities/Random.h"
 
+using namespace std;
 
 Animal::Animal(point position,
                int initiative,
@@ -34,4 +35,11 @@ void Animal::action()
     {
         this->position = newPosition;
     }
+}
+
+void Animal::die(shared_ptr<Organism> killer)
+{
+    point position = this->getPosition();
+    Organism::die(killer);
+    killer->setPosition(position);
 }

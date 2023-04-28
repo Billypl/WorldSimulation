@@ -151,12 +151,11 @@ void Organism::collision(shared_ptr<Organism> other)
 
 void Organism::die(shared_ptr<Organism> killer)
 {
-    point position = this->getPosition();
+    GUI::printToBoard(this->lastPosition, ' ');
     GUI::printToBoard(this->position, ' ');
     GUI::logMessage += killer->name + " destroyed " + this->name + '\n';
     int index = world.findOrganismIndexByPosition(this->position);
     world.getOrganisms().erase(world.getOrganisms().begin() + index);
-    killer->setPosition(position);
 }
 
 void Organism::incrementLivedTurnsCounter()

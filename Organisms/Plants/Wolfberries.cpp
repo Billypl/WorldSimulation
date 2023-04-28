@@ -8,12 +8,12 @@ Wolfberries::Wolfberries(point position)
                 OrganismType::WOLFBERRIES
 )
 {
-
+    this->strength = 99;
 }
 
 void Wolfberries::collision(std::shared_ptr<Organism> other)
 {
-    other->die(world.findOrganismByPosition(other->getPosition()));
+    other->die(world.getOrganism(this));
     Plant::collision(other);
 }
 

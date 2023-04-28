@@ -16,7 +16,7 @@ public:
 
 private:
 
-    void destroyNeighbour(std::shared_ptr<Organism> &tmp, World::Field field);
+    void destroyNeighbour(std::shared_ptr<Organism> &This, World::Field field);
 
 };
 
