@@ -23,11 +23,17 @@ World &World::Get()
 void World::start()
 {
     GUI::printBoard();
+    Console::setCursorType(false);
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(3,4)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLF, point(3,2)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLF, point(3,3)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GUARANA, point(3,3)));
     organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,1)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(3,4)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GUARANA, point(3,3)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SOSNOWSKY_BORSCHT, point(8,8)));
-    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::DANDELION, point(10,10)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(3,3)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(2,2)));
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(4,2)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SOSNOWSKY_BORSCHT, point(8,8)));
+//    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::DANDELION, point(10,10)));
 
     while(true)
     {
@@ -75,14 +81,20 @@ void World::manipulateIterIfNecessary(int &organismsCount, int &i, weak_ptr<Orga
     }
 }
 
-bool World::isFieldTaken(shared_ptr<Organism> organism, Field field)
+bool World::isFieldTaken(shared_ptr<Organism> organism, Field field) const
 {
     point fieldToCheck = getOffsettedField(organism, field);
+    return isFieldTaken(fieldToCheck);
+}
+
+bool World::isFieldTaken(point field) const
+{
     for(auto it : organisms)
-        if(it->getPosition() == fieldToCheck)
+        if(it->getPosition() == field)
             return true;
     return false;
 }
+
 
 void World::drawOrganisms()
 {
@@ -153,3 +165,9 @@ int World::findOrganismIndexByPosition(point position)
     }
     return -1;
 }
+
+std::shared_ptr<Organism> World::getOrganism(Organism *organism)
+{
+    return findOrganismByPosition(organism->getPosition());
+}
+

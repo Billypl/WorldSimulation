@@ -1,12 +1,12 @@
 #include "Organism.h"
 #include "../World/World.h"
 #include "../GUI/GUI.h"
-#include "../Utilities/Console.h"
 #include "Plants/Grass.h"
 #include "Plants/Dandelion.h"
 #include "Plants/Guarana.h"
 #include "Plants/Wolfberries.h"
 #include "Plants/SosnowskyBorscht.h"
+#include "Animals/Wolf.h"
 
 using namespace std;
 
@@ -102,6 +102,10 @@ shared_ptr<Organism> Organism::generateOrganism(OrganismType type, point positio
         case SOSNOWSKY_BORSCHT:
             return make_shared<SosnowskyBorscht>(position);
             break;
+        case WOLF:
+            return make_shared<Wolf>(position);
+            break;
+
         default:
             throw "Not a type!";
     }
@@ -109,7 +113,7 @@ shared_ptr<Organism> Organism::generateOrganism(OrganismType type, point positio
 
 void Organism::reproduce(OrganismType type)
 {
-    optional<point> freeField = world.getFreeField(world.findOrganismByPosition(this->position) /*no better way?*/);
+    optional<point> freeField = world.getFreeField(world.getOrganism(this));
     if(freeField.has_value() && World::isInBounds(freeField.value()))
     {
         shared_ptr<Organism> organism = Organism::generateOrganism(type, freeField.value());
@@ -147,10 +151,12 @@ void Organism::collision(shared_ptr<Organism> other)
 
 void Organism::die(shared_ptr<Organism> killer)
 {
-    GUI::printToBoard(position, ' ');
+    point position = this->getPosition();
+    GUI::printToBoard(this->position, ' ');
     GUI::logMessage += killer->name + " destroyed " + this->name + '\n';
     int index = world.findOrganismIndexByPosition(this->position);
     world.getOrganisms().erase(world.getOrganisms().begin() + index);
+    killer->setPosition(position);
 }
 
 void Organism::incrementLivedTurnsCounter()

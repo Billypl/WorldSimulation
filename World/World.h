@@ -11,9 +11,6 @@ private:
 
     std::vector<std::shared_ptr<Organism>> organisms;
     int turnCounter = 0;
-
-private:
-
     World();
 
 public:
@@ -27,14 +24,17 @@ public:
     };
 
     static World& Get();
+    static bool isInBounds(point position);
+    static point getOffsettedField(std::shared_ptr<Organism> organism, Field field);
+
     void start();
     std::vector<std::shared_ptr<Organism>>& getOrganisms();
-    bool isFieldTaken(std::shared_ptr<Organism> organism, Field field);
-    std::optional<point> getFreeField(std::shared_ptr<Organism> organism);
-    static bool isInBounds(point position);
-    std::shared_ptr<Organism>  findOrganismByPosition(point position);
+    bool isFieldTaken(std::shared_ptr<Organism> organism, Field field) const;
+    bool isFieldTaken(point field) const;
+    std::shared_ptr<Organism> getOrganism(Organism* organism);
+    std::shared_ptr<Organism> findOrganismByPosition(point position);
     int findOrganismIndexByPosition(point position);
-    static point getOffsettedField(std::shared_ptr<Organism> organism, Field field);
+    std::optional<point> getFreeField(std::shared_ptr<Organism> organism);
 
 private:
 

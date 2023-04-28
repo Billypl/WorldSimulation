@@ -103,6 +103,14 @@ public:
         gotoxy(coords.x, coords.y, str);
     }
 
+    static void setCursorType(bool showCursor)
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_CURSOR_INFO cursorInfo;
+        GetConsoleCursorInfo(hConsole, &cursorInfo);
+        cursorInfo.bVisible = showCursor;
+        SetConsoleCursorInfo(hConsole, &cursorInfo);
+    }
 
 };
 
