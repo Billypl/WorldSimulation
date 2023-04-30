@@ -174,3 +174,8 @@ void Organism::action()
     incrementLivedTurnsCounter();
 }
 
+const Organism::OrganismType Organism::getType() const
+{
+    return type;
+}
+

@@ -53,6 +53,9 @@ public:
     void setAgeInTurns(int ageInTurns);
     int getStrength() const;
     void setStrength(int strength);
+
+    const OrganismType getType() const;
+
     const point &getPosition() const;
     void setPosition(point position);
 

@@ -5,6 +5,7 @@
 #include "World.h"
 #include "../Organisms/Animals/Human.h"
 #include "../GUI/GUI.h"
+#include "FileParser.h"
 #include <iostream>
 
 const int InputParser::KEY_UP = 72;
@@ -35,6 +36,9 @@ void InputParser::chooseMovementInput()
                 break;
             case 'u':
                 Human::activeteUlt();
+                break;
+            case 's':
+                FileParser::saveToFile("game.txt", &World::Get());
                 break;
             case CONFIRMATION_KEY:
                 return;
