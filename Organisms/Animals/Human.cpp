@@ -1,6 +1,5 @@
 #include "Human.h"
 #include "../../World/InputParser.h"
-#include "../../GUI/GUI.h"
 #include <memory>
 
 using namespace std;

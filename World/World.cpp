@@ -24,6 +24,7 @@ void World::start()
 {
     GUI::printBoard();
     Console::setCursorType(false);
+/*
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::WOLFBERRIES, point(3,4)));
     organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(5,5)));
     organisms.push_back(Organism::generateOrganism(Organism::OrganismType::SHEEP, point(9,8)));
@@ -41,6 +42,9 @@ void World::start()
 //    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::GRASS, point(4,2)));
     organisms.push_back(Organism::generateOrganism(Organism::OrganismType::HUMAN, point(4,4)));
     organisms.push_back(Organism::generateOrganism(Organism::OrganismType::DANDELION, point(10,10)));
+
+*/
+    organisms.push_back(Organism::generateOrganism(Organism::OrganismType::ANTELOPE, point(5,5)));
 
     while(true)
     {
