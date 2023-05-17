@@ -41,7 +41,7 @@ private:
 
     void doTurn();
     void drawOrganisms();
-    void manipulateIterIfNecessary(int &organismsCount, int &i, std::weak_ptr <Organism> organism);
+    void manipulateIteratorOnRemove(int &organismsCount, int &i, std::weak_ptr <Organism> organism);
 
 };
 

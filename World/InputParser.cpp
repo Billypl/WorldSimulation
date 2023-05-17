@@ -35,7 +35,7 @@ void InputParser::chooseMovementInput()
                 DIRECTION = World::getOffset(World::Field::RIGHT_FIELD);
                 break;
             case 'u':
-                Human::activeteUlt();
+                Human::ultimate.activate();
                 break;
             case 's':
                 FileParser::saveToFile("game.txt", &World::Get());

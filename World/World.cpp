@@ -58,14 +58,14 @@ void World::doTurn()
     {
         weak_ptr<Organism> organism = organisms[i];
         organisms[i]->action();
-        manipulateIterIfNecessary(organismsCount, i, organism);
+        manipulateIteratorOnRemove(organismsCount, i, organism);
     }
     sort(organisms.begin(), organisms.end());
     turnCounter++;
     GUI::printLogger(turnCounter);
 }
 
-void World::manipulateIterIfNecessary(int &organismsCount, int &i, weak_ptr<Organism> organism)
+void World::manipulateIteratorOnRemove(int &organismsCount, int &i, weak_ptr<Organism> organism)
 {
     // function sorts out deleting elements
     bool expiredCheck = false;
@@ -106,7 +106,6 @@ bool World::isFieldTaken(point field) const
             return true;
     return false;
 }
-
 
 void World::drawOrganisms()
 {

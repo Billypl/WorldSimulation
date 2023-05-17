@@ -1,13 +1,13 @@
 #pragma once
 #include "Animal.h"
+#include "../UltHandler.h"
 
 class Human : public Animal
 {
 
-    static bool isUltimateActive;
-    static int cooldown;
-
 public:
+
+    static UltHandler ultimate;
 
     Human(point position);
 
@@ -17,5 +17,4 @@ public:
 
     void destroyNeighbour(std::shared_ptr<Organism> &This, World::Field field);
 
-    static void activeteUlt();
 };

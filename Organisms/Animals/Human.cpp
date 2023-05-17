@@ -1,12 +1,11 @@
 #include "Human.h"
 #include "../../World/InputParser.h"
-#include <memory>
 #include "../../GUI/GUI.h"
+#include <memory>
 
 using namespace std;
 
-bool Human::isUltimateActive = false;
-int Human::cooldown = 10;
+UltHandler Human::ultimate;
 
 Human::Human(point position)
     : Animal(position,
@@ -31,36 +30,13 @@ void Human::action()
             this->position = newPosition;
         }
     }
-    if(isUltimateActive)
+    if(ultimate.isActive())
     {
         auto This = world.getOrganism(this);
         destroyNeighbour(This, World::Field::UPPER_FIELD);
         destroyNeighbour(This, World::Field::BOTTOM_FIELD);
         destroyNeighbour(This, World::Field::RIGHT_FIELD);
         destroyNeighbour(This, World::Field::LEFT_FIELD);
-    }
-    if(cooldown == 0)
-    {
-        cooldown = 10;
-        GUI::logMessage += "Ult reneved!\n";
-    }
-    else if(cooldown == 5)
-    {
-        isUltimateActive = false;
-        GUI::logMessage += "Ult disactivated!\n";
-    }
-    if(cooldown != 10 || isUltimateActive == true)
-    {
-        cooldown--;
-    }
-}
-
-void Human::activeteUlt()
-{
-    if(cooldown == 10)
-    {
-        Human::isUltimateActive = true;
-        GUI::logMessage += "Ult activate!\n";
     }
 }
 
